@@ -1,0 +1,20 @@
+---
+
+#- name: Downloading openVPN server for Debian 9 x64
+#  get_url:
+#    url: https://openvpn.net/downloads/openvpn-as-latest-debian9.amd_64.deb
+#    dest: /tmp/
+    
+#- name: Install a .deb package
+#  apt:
+#    deb: /tmp/mypackage.deb
+
+- name: Downloading & Installing OpenVPN server for Debian 9.x 64bits
+  apt:
+    deb: https://openvpn.net/downloads/openvpn-as-latest-debian9.amd_64.deb
+    
+#- name: update OpenVPN password
+#  user:
+#    name: openvpn
+#    password:  "openvpn"
+#  become: yes

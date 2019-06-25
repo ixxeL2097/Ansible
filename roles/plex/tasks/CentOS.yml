@@ -1,0 +1,65 @@
+---
+- name: Verifying PMS installation
+  package_facts: 
+- when: ansible_facts.packages["plexmediaserver"] is undefined
+  block:
+    - debug:
+        msg: "Plex is not installed. Processing to installation"
+    - name: Adding Plex repository
+      yum_repository:
+        name: PlexRepo
+        file: plex
+        description: PlexRepo
+        baseurl: https://downloads.plex.tv/repo/rpm/$basearch/
+        gpgkey: https://downloads.plex.tv/plex-keys/PlexSign.key
+        gpgcheck: yes
+        enabled: yes
+
+    - name: Installing Plex Media Server
+      yum:
+        name:
+          - plexmediaserver
+        state: latest
+        update_cache: yes
+
+    - name: Starting Plex Media Server service
+      service:
+        name: plexmediaserver
+        state: started
+        enabled: yes
+
+- name: Verifying firewalld installation
+  package_facts: 
+- when: ansible_facts.packages["firewalld"] is undefined
+  name: Installing firewalld service
+  yum:
+    name:
+      - firewalld
+    state: latest
+    update_cache: yes
+
+- name: Checking firewalld rules installation
+  stat:
+    path: '/etc/firewalld/services/plexmediaserver.xml'
+  register: fwplex
+
+- when: not fwplex.stat.exists
+  block: 
+    - name: Configuring firewalld rules
+      template:
+        src: firewalld.j2
+        dest: /etc/firewalld/services/plexmediaserver.xml
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Adding firewalld plex rules to boot
+      firewalld:
+        service: plexmediaserver
+        permanent: yes
+        state: enabled
+
+- name: Restarting firewalld service
+  service:
+    name: firewalld
+    state: restarted

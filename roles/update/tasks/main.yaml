@@ -1,0 +1,23 @@
+---
+
+- when: ansible_os_family == 'CentOS' or ansible_os_family == 'RedHat'
+  name: .rpm update
+  yum:
+    name: "*"
+    update_cache: yes
+    state: latest
+
+- when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+  block:
+    - name: Autoclean
+      apt:
+        autoclean: yes
+
+    - name: .deb update & dist upgrade
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Autoremove
+      apt:
+        autoremove: yes

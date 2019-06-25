@@ -1,0 +1,26 @@
+---
+
+- name: Verifying GUI installation
+  stat:
+    path: /usr/share/xsessions
+  register: gui
+
+- when: not gui.stat.exists
+  block:
+    - name: Installing Gnome desktop for CentOS
+      yum:
+        name:
+          - "@^Bureau GNOME"
+          - "@Outils d'administration graphique"
+        state: latest
+
+    - name: Symlink to enable GUI on system
+      file:
+        src: /lib/systemd/system/runlevel5.target
+        dest: /etc/systemd/system/default.target
+        state: link
+
+#- when: gui.stat.exists
+#  name: verified gui
+#  debug:
+#    msg: "LE GUI EST DEJA INSTALLE"

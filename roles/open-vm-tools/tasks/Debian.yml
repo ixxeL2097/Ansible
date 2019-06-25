@@ -1,0 +1,6 @@
+---
+  - name: Installing Open VMware Tools (open-vm-tools) for Debian/Ubuntu distro
+    apt:
+      name: open-vm-tools
+      update_cache: yes
+      state: present

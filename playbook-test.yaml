@@ -1,0 +1,22 @@
+---
+- name: Installation test
+  hosts: test
+  remote_user: root
+  #become: yes
+  vars:
+    userlist:
+      fred: /home/
+    fullList:
+      fred: /home/
+      root: /root/
+
+  roles:
+    #- utils
+    #- sudoer
+    #- open-vm-tools
+    #- fish
+    #- update
+    #- plex
+    - gnome-desktop
+    #- test-feature
+...

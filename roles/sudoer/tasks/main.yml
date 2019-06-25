@@ -1,0 +1,8 @@
+---
+- name: Adding user to SUDOERS
+  template: 
+    src: templates/sudoers.j2 
+    dest: /etc/sudoers.d/{{ item.key }}-sudoer 
+    validate: 'visudo -cf %s'
+    mode: 0440
+  with_dict: '{{ userlist }}'

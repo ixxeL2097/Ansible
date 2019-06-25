@@ -1,0 +1,6 @@
+---
+  - import_tasks: CentOS.yml
+    when: ansible_os_family == 'RedHat' or ansible_os_family == 'CentOS' and ansible_virtualization_type == "VMware"
+
+  - import_tasks: Debian.yml
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian' and ansible_virtualization_type == "VMware"

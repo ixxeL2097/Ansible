@@ -1,0 +1,15 @@
+---
+- name: Installation de Fish shell
+  hosts: VMs
+  remote_user: root
+  vars:
+    userlist:
+      fred: /home/
+
+  roles:
+    - utils
+    - fish
+    #- role: fish
+
+
+...

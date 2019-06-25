@@ -1,0 +1,23 @@
+---
+  - import_tasks: CentOS.yml
+    when: ansible_os_family == 'RedHat' or ansible_os_family == 'CentOS'
+
+  - import_tasks: Debian.yml
+    when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+
+
+#- name: Basic Packages installation
+#  package:
+#    name:
+#      - sudo
+#      - git
+#      - curl
+#      - wget
+#      - gcc
+#      - net-tools
+#      - zsh
+#      - nano
+      #- terminator
+#    state: latest
+#    update_cache: yes

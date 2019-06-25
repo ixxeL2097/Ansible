@@ -1,0 +1,10 @@
+---
+- name: Main graphic packages installation
+  package:
+    name:
+      - vlc
+      - baobab
+      - filezilla
+      - terminator
+    state: latest
+    update_cache: yes
