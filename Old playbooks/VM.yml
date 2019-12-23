@@ -6,7 +6,7 @@
   - vmware_guest:
       hostname: "{{ 192.168.1.1 }}"
       username: "{{ root }}"
-      password: "{{ @Coucou2097 }}"
+      password: "{{  }}"
       name: "{{ newvm001 }}"
       guest_id: debian64Guest
       validate_certs: False
