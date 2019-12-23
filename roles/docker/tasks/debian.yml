@@ -1,0 +1,41 @@
+---
+
+- name: Dependancies packages install for Docker
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - gnupg2
+      - software-properties-common
+    state: latest
+    update_cache: yes
+
+- name: Adding GPG key official docker repo
+  apt_key:
+    url: http://download.docker.com/linux/debian/gpg
+    state: present
+
+#- name: Adding official Docker repository
+#  apt_repository:
+#    repo: deb [arch=amd64] https://download.docker.com/linux/debian buster stable
+#    state: present
+#    filename: docker-ce
+
+- name: Adding official Docker repo
+  lineinfile:
+    path: /etc/apt/sources.list
+    line: deb [arch=amd64] https://download.docker.com/linux/debian/ buster stable
+
+- name: Indexing new repo into the cache
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Installing Docker
+  apt:
+    name:
+      - docker-ce
+    state: latest
+

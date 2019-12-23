@@ -1,6 +1,6 @@
 ---
 - name: Installation test
-  hosts: VAULT
+  hosts: test
   remote_user: root
   #become: yes
   vars:
@@ -18,7 +18,7 @@
     #- open-vm-tools
     #- fish
     #- update
-    - docker
+    - docker
     #- openVPN
     #- plex
     #- gnome-desktop

@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - vmware_guest:
+      hostname: "{{ 192.168.1.1 }}"
+      username: "{{ root }}"
+      password: "{{ @Coucou2097 }}"
+      name: "{{ newvm001 }}"
+      guest_id: debian64Guest
+      validate_certs: False
+      folder: /
+      hardware:
+        memory_mb: "{{ 2048 }}"
+        num_cpus: "{{ 2 }}"
+        scsi: paravirtual
+        hotadd_cpu: True
+        hotremove_cpu: True
+        hotadd_memory: True
+        disk:
+        - size_gb: "{{ 10 }}"
+          type: thin
+          datastore: "{{ datastore1 }}"
+        networks:
+        - name: "{{ VM Network }}"
+          device_type: vmxnet3
+        cdrom:
+          type: "client"
+
+...
+

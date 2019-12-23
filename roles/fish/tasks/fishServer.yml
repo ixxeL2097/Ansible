@@ -42,4 +42,108 @@
         shell: /usr/bin/fish
       with_dict: '{{ fullList }}'
 
+- name: Creating fisk custom theme user directory
+  file: 
+    path: '{{ item.value }}/{{ item.key }}/.config/fish/functions'
+    state: directory
+    owner: '{{ item.key }}'
+    group: '{{ item.key }}'
+    recurse: yes
+    mode: 0775
+  with_dict: '{{ userlist }}'
+
+- name: Creating fisk custom theme root directory
+  file: 
+    path: '{{ item.value }}/.config/fish/functions'
+    state: directory
+    recurse: yes
+    mode: 0775
+  with_dict: '{{ rootlist }}'
+
+#- name: Creating fisk theme user directory
+#  file: 
+#    path: '{{ item.value }}/{{ item.key }}/.local/share/omf/themes/fisk'
+#    state: directory
+#    recurse: yes
+#    mode: 0775
+#  with_dict: '{{ userlist }}'
+
+#- name: Creating fisk theme root directory
+#  file: 
+#    path: '{{ item.value }}/.local/share/omf/themes/fisk'
+#    state: directory
+#    recurse: yes
+#    mode: 0775
+#  with_dict: '{{ rootlist }}'
+
+#- name: Installing fisk default theme user
+#  template:
+#    src: config.fisk.default.theme.j2
+#    dest: '{{ item.value }}/{{ item.key }}/.local/share/omf/themes/fisk/fish_prompt.fish'
+#    owner: '{{ item.key }}'
+#    group: '{{ item.key }}'
+#    mode: 0644
+#  with_dict: '{{ userlist }}'
+
+#- name: Installing fisk default theme root
+#  template:
+#    src: config.fisk.default.theme.j2
+#    dest: '{{ item.value }}/.local/share/omf/themes/fisk/fish_prompt.fish'
+#    owner: '{{ item.key }}'
+#    group: '{{ item.key }}'
+#    mode: 0644
+#  with_dict: '{{ rootlist }}'
+
+#- name: Installing fisk concat function user
+#  template:
+#    src: config.fisk.concat.function.j2
+#    dest: '{{ item.value }}/{{ item.key }}/.local/share/omf/themes/fisk/_fisk_concat.fish'
+#    owner: '{{ item.key }}'
+#    group: '{{ item.key }}'
+#    mode: 0644
+#  with_dict: '{{ userlist }}'
+
+#- name: Installing fisk concat function root
+#  template:
+#    src: config.fisk.concat.function.j2
+#    dest: '{{ item.value }}/.local/share/omf/themes/fisk/_fisk_concat.fish'
+#    owner: '{{ item.key }}'
+#    group: '{{ item.key }}'
+#    mode: 0644
+#  with_dict: '{{ rootlist }}'
+
+- name: Configuring fisk theme colours for user
+  template:
+    src: config.fisk.theme.colours.user.j2
+    dest: '{{ item.value }}/{{ item.key }}/.config/fish/functions/fish_prompt.fish.NEW'
+    owner: '{{ item.key }}'
+    group: '{{ item.key }}'
+    mode: 0777
+  with_dict: '{{ userlist }}'
+
+- name: Configuring fisk theme colours for root
+  template:
+    src: config.fisk.theme.colours.root.j2
+    dest: '{{ item.value }}/.config/fish/functions/fish_prompt.fish.NEW'
+    owner: '{{ item.key }}'
+    group: '{{ item.key }}'
+    mode: 0777
+  with_dict: '{{ rootlist }}'
+
+#- name: Symlinking user
+#  file:
+#    src: '{{ item.value }}{{ item.key }}/.local/share/omf/themes/fisk/fish_prompt.fish'
+#    dest: '{{ item.value }}{{ item.key }}/.config/fish/functions/fish_prompt.fish'
+#    state: link
+#    force: yes
+#  with_dict: '{{ userlist }}'
+
+#- name: Symlinking root
+#  file:
+#    src: '{{ item.value }}/.local/share/omf/themes/fisk/fish_prompt.fish'
+#    dest: '{{ item.value }}/.config/fish/functions/fish_prompt.fish'
+#    state: link
+#    force: yes
+#  with_dict: '{{ rootlist }}'
+
 ...

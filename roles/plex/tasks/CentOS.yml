@@ -4,7 +4,7 @@
 - when: ansible_facts.packages["plexmediaserver"] is undefined
   block:
     - debug:
-        msg: "Plex is not installed. Processing to installation"
+        msg: "Plex is not installed. Processing installation"
     - name: Adding Plex repository
       yum_repository:
         name: PlexRepo
@@ -53,11 +53,23 @@
         group: root
         mode: 0644
 
-    - name: Adding firewalld plex rules to boot
-      firewalld:
-        service: plexmediaserver
-        permanent: yes
-        state: enabled
+    - name: Restarting firewalld service
+      service:
+        name: firewalld
+        state: restarted
+
+- name: Creating NFS/SMB directory
+  file: 
+    path: '/mnt/share'
+    state: directory
+    recurse: yes
+    mode: 0775
+
+- name: Adding firewalld plex rules to boot
+  firewalld:
+    service: plexmediaserver
+    permanent: yes
+    state: enabled
 
 - name: Restarting firewalld service
   service:

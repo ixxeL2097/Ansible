@@ -9,9 +9,28 @@
 #  apt:
 #    deb: /tmp/mypackage.deb
 
-- name: Downloading & Installing OpenVPN server for Debian 9.x 64bits
-  apt:
-    deb: https://openvpn.net/downloads/openvpn-as-latest-debian9.amd_64.deb
+#- name: Downloading & Installing OpenVPN server for Debian 9.x 64bits
+#  apt:
+#    deb: https://openvpn.net/downloads/openvpn-as-latest-debian9.amd_64.deb
+
+- when: ansible_facts.packages["openvpn-as"] is undefined
+  block:
+    - debug:
+        msg: "OpenVPN is not installed. Processing installation"
+    - name: Add OpenVPN GPG key (Debian 10.x 64bits)
+      apt_key:
+        url: https://as-repository.openvpn.net/as-repo-public.gpg
+        state: present
+    - name: Adding OpenVPN repository
+      apt_repository:
+        repo: deb https://as-repository.openvpn.net/as/debian buster main
+        state: present
+        filename: openvpn-as-repo
+    - name: Installing OpenVPN server for Debian 10.x 64bits
+      apt: 
+        name: openvpn-as
+        state: latest
+        update_cache: yes
     
 #- name: update OpenVPN password
 #  user:

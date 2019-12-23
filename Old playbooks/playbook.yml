@@ -1,0 +1,14 @@
+---
+
+- name: Installation serveurs de test
+  hosts: test
+  remote_user: root
+
+
+  roles:
+    - utils
+
+
+
+
+...

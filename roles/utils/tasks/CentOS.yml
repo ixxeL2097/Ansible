@@ -7,9 +7,10 @@
       - wget
       - gcc
       - net-tools
-      - zsh
       - nano
       - nfs-utils
+      - cifs-utils
+      - samba-client
     state: latest
     update_cache: yes
 

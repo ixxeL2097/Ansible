@@ -1,0 +1,85 @@
+---
+- name: Dependancies packages install for Docker
+  yum:
+    name: 
+    - yum-utils
+    - device-mapper-persistent-data 
+    - lvm2
+    - epel-release
+    - yum-utils 
+    state: latest 
+    update_cache: yes
+
+- name: Adding Docker repository
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
+
+- name: Installing Docker
+  yum:
+    name:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    state: latest
+    update_cache: yes
+
+- name: Starting and Enabling Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add user root to docker group
+  user:
+    name: root
+    groups: docker
+    append: yes
+
+- name: Installing release-scl package
+  yum:
+    name:
+    - centos-release-scl
+    state: latest
+    update_cache: yes
+
+- name: Installing packages for docker-compose (dvpt, python, pip...)
+  yum:  
+    name:
+    - "@development-tools"
+    - rh-python36
+    state: latest
+    update_cache: yes
+
+#- name: SCL enable python
+#  shell: bash -c 'source /opt/rh/rh-python36/enable bash'
+#  register: output
+
+#- debug: msg="{{ output }}"
+
+#  shell: |
+#    scl enable rh-python36
+
+- name: Install pip3
+  yum:
+    name:
+    - python3-pip
+    - python-pip
+    - python-devel
+    state: latest
+    update_cache: yes
+
+- name: pip upgrade
+  pip:
+    name: 
+    - pip
+    executable: pip3
+    state: latest
+
+- name: installing docker-compose
+  pip:
+    name:
+    - docker-compose
+    executable: pip
+    state: latest
