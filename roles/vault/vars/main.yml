@@ -1,0 +1,13 @@
+---
+vault_group: vault
+vault_user: vault
+vault_version: "1.3.0"
+
+dir:
+    vault_directory: /etc/vault
+    vault_data: /var/lib/vault/data
+    vault_log: /var/log/vault
+
+vault_config_path: /etc/vault/conf.hcl
+
+        
